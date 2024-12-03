@@ -3,20 +3,14 @@ from diffusers.pipelines import FluxPipeline
 from src.condition import Condition
 from PIL import Image
 
+from transformers import CLIPTextModel
+
 from src.generate import generate, seed_everything
 
-def test_omini_control():
-    print("Loading FLUX pipeline...")
-    print(os.listdir())
-    
-    #pipe = FluxPipeline.from_pretrained(
-    #    "black-forest-labs/FLUX.1-schnell", torch_dtype=torch.bfloat16
-    #)
-
-    pipe = FluxPipeline.from_single_file(
-        "flux1-schnell.safetensors",torch_dtype=torch.bfloat16
+def test_omini_control(model_path):
+    pipe = FluxPipeline.from_pretrained(
+        model_path, torch_dtype=torch.bfloat16
     )
-
     print("Pipeline loaded")
     pipe = pipe.to("cuda")
     pipe.load_lora_weights(
